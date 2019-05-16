@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="level">Nível</string>
+    <string name="moves">Movimentos</string>
+    <string name="boxes">Caixas</string>
+    <string name="levelsFileError">Ocorreu um erro ao carregar o ficheiro dos niveis</string>
+</resources>

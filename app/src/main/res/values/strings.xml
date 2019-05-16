@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name" translatable="false">Sokoban</string>
+    <string name="level">Level</string>
+    <string name="moves">Moves</string>
+    <string name="boxes">Boxes</string>
+    <string name="levelsFileError">Error loading the levels file</string>
+</resources>
