@@ -4,4 +4,8 @@
     <string name="moves">Movimentos</string>
     <string name="boxes">Caixas</string>
     <string name="levelsFileError">Ocorreu um erro ao carregar o ficheiro dos niveis</string>
+    <string name="win_message">Passaste este nível!</string>
+    <string name="next_level">Próximo Nível</string>
+    <string name="restart">Recomeçar</string>
+    <string name="level_lose">Perdeste o nível.</string>
 </resources>

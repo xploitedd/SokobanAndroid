@@ -30,6 +30,23 @@ public class Game {
         curLevel.init(this);
     }
 
+    public Level load(InputStream is, int levelNumber) throws Loader.LevelFormatException {
+        this.levelNumber = levelNumber;
+        curLevel = new Loader(new Scanner(is)).load(levelNumber);
+        if (curLevel != null)
+            curLevel.init(this);
+
+        return curLevel;
+    }
+
+    public void saveState(OutputStream os) {
+        PrintWriter pw = new PrintWriter(os);
+        int lw = curLevel.getWidth(), lh = curLevel.getHeight();
+        pw.println("#" + levelNumber + " " + lh + " x " + lw);
+        curLevel.saveState(pw);
+        pw.close();
+    }
+
     private Scanner createScanner() {
         try {
             input.reset();

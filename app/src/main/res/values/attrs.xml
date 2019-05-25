@@ -6,6 +6,9 @@
     <attr name="gridLine" format="integer" />
     <attr name="backgroundTiles" format="color" />
   </declare-styleable>
+  <declare-styleable name="FieldView">
+    <attr name="label" format="string"/>
+  </declare-styleable>
 </resources>
 
 <!--

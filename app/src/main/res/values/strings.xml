@@ -4,4 +4,8 @@
     <string name="moves">Moves</string>
     <string name="boxes">Boxes</string>
     <string name="levelsFileError">Error loading the levels file</string>
+    <string name="win_message">You won this level!</string>
+    <string name="next_level">Next Level</string>
+    <string name="restart">Restart</string>
+    <string name="level_lose">Oh no! You\'ve lost this level.</string>
 </resources>

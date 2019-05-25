@@ -20,4 +20,19 @@ public enum Dir {
         this.dl = dl;
     }
 
+    /**
+     * Gets the direction that represents the specified vector
+     * @param dc delta column
+     * @param dl delta line
+     * @return Direction if the vector is valid, null otherwise
+     */
+    public static Dir fromVector(int dc, int dl) {
+        for (Dir d : values()) {
+            if (d.dc == dc && d.dl == dl)
+                return d;
+        }
+
+        return null;
+    }
+
 }

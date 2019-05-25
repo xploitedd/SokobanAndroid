@@ -1,5 +1,8 @@
 package pt.isel.poo.g6li21d.Sokoban.model;
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import pt.isel.poo.g6li21d.Sokoban.model.actors.*;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.FloorCell;
@@ -136,10 +139,11 @@ public class Level {
             playersCell[playerId] = nextCell;
             ++moves;
             manIsDead = nextCell.getType() == HoleCell.TYPE;
+            observer.onPlayerMove(player);
             if (manIsDead)
                 observer.onPlayerDead(player);
-            else
-                observer.onPlayerMove(player);
+            else if (boxes == 0)
+                observer.onLevelWin();
         }
     }
 
@@ -227,17 +231,33 @@ public class Level {
      * @return Cell that is on line l and column c, null if there is none
      */
     public Cell getCell(int l, int c) {
-        /* Protects against NullPointerException
-         * verifying if the line position is within the
-         * width of the board.
-         * There's no need to do the same for the column
-         * because if the column is not null and the line
-         * is null it returns null in the end.
-        */
-        if (l >= width || l < 0)
+        if (c >= width || c < 0 || l >= height || l < 0)
             return null;
 
         return board[l][c];
+    }
+
+    public void saveState(PrintWriter out) {
+        char mcletter = 'a';
+        ArrayList<String> multiChars = new ArrayList<>();
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                Cell cell = board[y][x];
+                char type = cell.getType();
+                if (cell.hasActor()) {
+                    char actor = cell.getActor().getType();
+                    multiChars.add(mcletter - 'a', mcletter + "=" + type + "" + actor);
+                    out.print(mcletter++);
+                } else {
+                    out.print(type);
+                }
+            }
+
+            out.println();
+        }
+
+        for (String mc : multiChars)
+            out.println(mc);
     }
 
     public interface Observer {
@@ -275,6 +295,11 @@ public class Level {
          * @param box Box that was moved
          */
         void onBoxMove(Box box);
+
+        /**
+         * Called when a level is won
+         */
+        void onLevelWin();
 
     }
 
