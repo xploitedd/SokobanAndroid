@@ -1,6 +1,5 @@
 package pt.isel.poo.g6li21d.Sokoban.view.game;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -51,6 +50,10 @@ public abstract class CellTile implements Tile {
         // and return it so it can be saved in cache for future uses
         return cache == null ? new Img(ctx, resId) : cache;
     }
+
+    public int getX() { return cell.column; }
+
+    public int getY() { return cell.line; }
 
     public static CellTile tileOf(Context ctx, Cell cell) {
         if (cell == null)

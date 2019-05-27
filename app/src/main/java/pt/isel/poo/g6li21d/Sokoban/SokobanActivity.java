@@ -40,6 +40,7 @@ public class SokobanActivity extends Activity {
     private FieldView movesView;
     private FieldView boxesView;
     private MessageView messageView;
+    private boolean hasMessage;
 
     @Override
     protected void onCreate(Bundle savedState) {
@@ -70,12 +71,16 @@ public class SokobanActivity extends Activity {
         }
 
         try {
-            int levelNumber = savedState.getInt("level_number");
-            levelNumber = levelNumber == 0 ? 1 : levelNumber; // if the saved level is zero, then starts with 1
+            boolean hasMessage = savedState.getBoolean("message_shown");
+            int levelNumber = savedState.getInt("level_number", 1);
             ByteArrayInputStream is = new ByteArrayInputStream(savedState.getByteArray("level"));
             level = game.load(is, levelNumber);
+            if (hasMessage)
+                loadNextLevel();
+            else
+                loadLevel();
+
             level.setObserver(observer);
-            loadLevel();
         } catch (Loader.LevelFormatException e) {
             e.printStackTrace();
         }
@@ -84,10 +89,11 @@ public class SokobanActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("level_int", level.getNumber());
+        outState.putInt("level_number", level.getNumber());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         game.saveState(bos);
         outState.putByteArray("level", bos.toByteArray());
+        outState.putBoolean("message_shown", hasMessage);
     }
 
     private void showMessage(@StringRes int messageId, @StringRes int buttonString, View.OnClickListener buttonListener) {
@@ -96,12 +102,14 @@ public class SokobanActivity extends Activity {
         messageView.setMessage(messageId);
         messageView.setButton(buttonString, buttonListener);
         messageView.setVisibility(View.VISIBLE);
+        hasMessage = true;
     }
 
     private void hideMessage() {
         messageView.setVisibility(View.GONE);
         scoreboard.setVisibility(View.VISIBLE);
         tilePanelLayout.setVisibility(View.VISIBLE);
+        hasMessage = false;
     }
 
     private void loadNextLevel() {
@@ -161,8 +169,8 @@ public class SokobanActivity extends Activity {
                     return false;
 
                 Player p = (Player) actor;
-                level.moveMan(dir, p.playerId);
-                updateValues();
+                if (level.moveMan(dir, p.playerId))
+                    updateValues();
             }
 
             return false;
@@ -187,8 +195,8 @@ public class SokobanActivity extends Activity {
         @Override
         public void onPlayerDead(Player player) {
             showMessage(R.string.level_lose, R.string.restart, (view) -> {
-                restartLevel();
                 hideMessage();
+                restartLevel();
             });
         }
 

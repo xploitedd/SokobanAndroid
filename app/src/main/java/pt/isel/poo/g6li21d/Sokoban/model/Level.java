@@ -120,10 +120,11 @@ public class Level {
     /**
      * Moves the man in the given direction
      * @param dir Direction to move
+     * @return true if the player has moved, false otherwise
      */
-    public void moveMan(Dir dir, int playerId) {
+    public boolean moveMan(Dir dir, int playerId) {
         if (playerId >= players)
-            return;
+            return false;
 
         Cell playerCell = playersCell[playerId];
         int l = playerCell.line, c = playerCell.column;
@@ -132,7 +133,7 @@ public class Level {
 
         Cell nextCell = getCell(nextL, nextC);
         if (nextCell == null)
-            return;
+            return false;
 
         Player player = (Player) playerCell.getActor();
         if (player.move(this, dir, playerCell, nextCell)) {
@@ -144,7 +145,11 @@ public class Level {
                 observer.onPlayerDead(player);
             else if (boxes == 0)
                 observer.onLevelWin();
+
+            return true;
         }
+
+        return false;
     }
 
     /**
