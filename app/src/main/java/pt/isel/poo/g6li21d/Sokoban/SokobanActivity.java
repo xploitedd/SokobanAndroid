@@ -1,6 +1,8 @@
 package pt.isel.poo.g6li21d.Sokoban;
 
 import android.app.Activity;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -28,8 +30,10 @@ import pt.isel.poo.g6li21d.Sokoban.view.TileLib.TilePanel;
 
 public class SokobanActivity extends Activity {
 
+    public static final int[] sounds = new int[3];
     public static final String APP_NAME = "Sokoban";
 
+    private SoundPool sp;
     private Level.Observer observer;
     private Game game;
     private Level level;
@@ -46,6 +50,21 @@ public class SokobanActivity extends Activity {
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
         setContentView(R.layout.activity_sokoban);
+
+        // initialize the sound pool
+        sp = new SoundPool.Builder()
+                .setMaxStreams(3)
+                .setAudioAttributes(new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build())
+                .build();
+
+        sounds[0] = sp.load(this, R.raw.walk, 2);
+        sounds[1] = sp.load(this, R.raw.box_moved, 1);
+        sounds[2] = sp.load(this, R.raw.kill, 1);
+
+        sp.play(sounds[3], 1f, 1f, 3, -1, 1f);
 
         observer = new LevelObserver();
         game = new Game(getResources().openRawResource(R.raw.levels));
@@ -194,6 +213,7 @@ public class SokobanActivity extends Activity {
 
         @Override
         public void onPlayerDead(Player player) {
+            sp.play(sounds[2], 1f, 1f, 1, 0, 1);
             showMessage(R.string.level_lose, R.string.restart, (view) -> {
                 hideMessage();
                 restartLevel();
@@ -201,10 +221,14 @@ public class SokobanActivity extends Activity {
         }
 
         @Override
-        public void onPlayerMove(Player player) { }
+        public void onPlayerMove(Player player) {
+            sp.play(sounds[0], 1f, 1f, 2, 0, 1);
+        }
 
         @Override
-        public void onBoxMove(Box box) { }
+        public void onBoxMove(Box box) {
+            sp.play(sounds[1], 1f, 1f, 1, 0, 1);
+        }
 
         @Override
         public void onLevelWin() {
