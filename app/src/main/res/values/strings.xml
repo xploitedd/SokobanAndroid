@@ -8,4 +8,7 @@
     <string name="next_level">Next Level</string>
     <string name="restart">Restart</string>
     <string name="level_lose">Oh no! You\'ve lost this level.</string>
+    <string name="scoreboard">Scoreboard</string>
+    <string name="play">Play Game</string>
+    <string name="select_level">Select Level</string>
 </resources>

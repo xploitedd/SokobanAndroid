@@ -1,6 +1,8 @@
 package pt.isel.poo.g6li21d.Sokoban;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -40,6 +42,7 @@ public class SokobanActivity extends Activity {
     private FieldView movesView;
     private FieldView boxesView;
     private MessageView messageView;
+    private Player activePlayer;
     private boolean hasMessage;
 
     @Override
@@ -53,7 +56,7 @@ public class SokobanActivity extends Activity {
         tilePanel = findViewById(R.id.tile_panel);
         tilePanelLayout = findViewById(R.id.tile_panel_layout);
 
-        scoreboard = findViewById(R.id.scoreboard);
+        scoreboard = findViewById(R.id.score);
         levelView = findViewById(R.id.level_count);
         movesView = findViewById(R.id.moves_count);
         boxesView = findViewById(R.id.boxes_count);
@@ -65,25 +68,8 @@ public class SokobanActivity extends Activity {
 
         tilePanel.setListener(new TouchListener());
 
-        if (savedState == null) {
+        if (savedState == null)
             loadNextLevel();
-            return;
-        }
-
-        try {
-            boolean hasMessage = savedState.getBoolean("message_shown");
-            int levelNumber = savedState.getInt("level_number", 1);
-            ByteArrayInputStream is = new ByteArrayInputStream(savedState.getByteArray("level"));
-            level = game.load(is, levelNumber);
-            if (hasMessage)
-                loadNextLevel();
-            else
-                loadLevel();
-
-            level.setObserver(observer);
-        } catch (Loader.LevelFormatException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -94,6 +80,22 @@ public class SokobanActivity extends Activity {
         game.saveState(bos);
         outState.putByteArray("level", bos.toByteArray());
         outState.putBoolean("message_shown", hasMessage);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState) {
+        super.onRestoreInstanceState(savedState);
+        try {
+            // TODO: handle message
+            boolean hasMessage = savedState.getBoolean("message_shown");
+            int levelNumber = savedState.getInt("level_number", 1);
+            ByteArrayInputStream is = new ByteArrayInputStream(savedState.getByteArray("level"));
+            level = game.load(is, levelNumber);
+            loadLevel();
+            level.setObserver(observer);
+        } catch (Loader.LevelFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showMessage(@StringRes int messageId, @StringRes int buttonString, View.OnClickListener buttonListener) {
@@ -130,8 +132,11 @@ public class SokobanActivity extends Activity {
         tilePanel.setSize(lw, lh);
         Tile[][] tiles = new Tile[lw][lh];
         for (int y = 0; y < lh; ++y) {
-            for (int x = 0; x < lw; ++x)
-                tiles[x][y] = CellTile.tileOf(this, level.getCell(y, x));
+            for (int x = 0; x < lw; ++x) {
+                Cell cell = level.getCell(y, x);
+                tiles[x][y] = CellTile.tileOf(this, cell);
+                setActivePlayer(cell.getActor());
+            }
         }
 
         tilePanel.setAllTiles(tiles);
@@ -149,6 +154,17 @@ public class SokobanActivity extends Activity {
         boxesView.setValue(level.getRemainingBoxes());
     }
 
+    private void setActivePlayer(Actor a) {
+        if (a != null && a.getType() == Player.TYPE) {
+            Player p = (Player) a;
+            if (activePlayer != null)
+                activePlayer.setActive(false);
+
+            p.setActive(true);
+            activePlayer = p;
+        }
+    }
+
     private static Dir calculateDirection(int xFrom, int yFrom, int xTo, int yTo) {
         int difX = xTo - xFrom, difY = yTo - yFrom;
         return Dir.fromVector(difX, difY);
@@ -157,19 +173,21 @@ public class SokobanActivity extends Activity {
     private class TouchListener implements OnTileTouchListener {
 
         @Override
-        public boolean onClick(int xTile, int yTile) { return false; }
+        public boolean onClick(int xTile, int yTile) {
+            Cell cell = level.getCell(yTile, xTile);
+            setActivePlayer(cell.getActor());
+            tilePanel.invalidate(xTile, yTile);
+            return true;
+        }
 
         @Override
         public boolean onDrag(int xFrom, int yFrom, int xTo, int yTo) {
-            Cell cell = level.getCell(yFrom, xFrom);
-            Actor actor = cell.getActor();
-            if (actor != null && actor.getType() == Player.TYPE) {
+            if (activePlayer != null) {
                 Dir dir = calculateDirection(xFrom, yFrom, xTo, yTo);
                 if (dir == null)
                     return false;
 
-                Player p = (Player) actor;
-                if (level.moveMan(dir, p.playerId))
+                if (level.moveMan(dir, activePlayer.playerId))
                     updateValues();
             }
 

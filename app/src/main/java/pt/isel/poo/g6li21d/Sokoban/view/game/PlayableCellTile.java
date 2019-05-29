@@ -2,17 +2,21 @@ package pt.isel.poo.g6li21d.Sokoban.view.game;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
 
 import pt.isel.poo.g6li21d.Sokoban.R;
 import pt.isel.poo.g6li21d.Sokoban.SokobanActivity;
+import pt.isel.poo.g6li21d.Sokoban.model.actors.Player;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
 import pt.isel.poo.g6li21d.Sokoban.view.TileLib.Img;
 
 public abstract class PlayableCellTile extends CellTile {
 
+    private static final Paint activePlayerPaint = new Paint();
     private static final int PLAYER_RES = R.drawable.man;
     private static final int BOX_RES = R.drawable.box;
     private static final int LIGHT_BOX_RES = R.drawable.light_box;
@@ -22,6 +26,10 @@ public abstract class PlayableCellTile extends CellTile {
     private static Img boxImg;
     private static Img lightBoxImg;
     private static Img keyImg;
+
+    static {
+        activePlayerPaint.setColor(Color.argb(125, 0, 0, 0));
+    }
 
     PlayableCellTile(Context ctx, Cell cell) { super(ctx, cell); }
 
@@ -53,7 +61,10 @@ public abstract class PlayableCellTile extends CellTile {
         }
     }
 
-    private void drawPlayer(Canvas canvas, int side) { playerImg.draw(canvas, side, side, paint); }
+    private void drawPlayer(Canvas canvas, int side) {
+        Player p = (Player) cell.getActor();
+        playerImg.draw(canvas, side, side, p.isActive() ? paint : activePlayerPaint);
+    }
 
     private void drawBox(Canvas canvas, int side) { boxImg.draw(canvas, side, side, paint); }
 

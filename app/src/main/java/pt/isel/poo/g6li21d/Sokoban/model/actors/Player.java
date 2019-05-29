@@ -9,6 +9,7 @@ public final class Player extends Actor {
     public static final char TYPE = '@';
 
     public final int playerId;
+    private boolean active;
 
     /**
      * Constructor for the player actor
@@ -33,5 +34,9 @@ public final class Player extends Actor {
 
         return super.move(level, dir, from, to);
     }
+
+    public void setActive(boolean active) { this.active = active; }
+
+    public boolean isActive() { return active; }
 
 }
