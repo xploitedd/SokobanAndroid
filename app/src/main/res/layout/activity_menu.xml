@@ -32,13 +32,6 @@
             android:height="70sp"/>
 
         <pt.isel.poo.g6li21d.Sokoban.view.StyledButtonView
-            android:id="@+id/select_level"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/select_level"
-            android:height="70sp"/>
-
-        <pt.isel.poo.g6li21d.Sokoban.view.StyledButtonView
             android:id="@+id/view_scoreboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

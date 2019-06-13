@@ -10,5 +10,5 @@
     <string name="level_lose">Perdeste o nível.</string>
     <string name="scoreboard">Pontuações</string>
     <string name="play">Jogar</string>
-    <string name="select_level">Selecionar Nível</string>
+    <string name="name">Nome</string>
 </resources>

@@ -9,7 +9,7 @@
     tools:context=".SokobanActivity">
 
     <LinearLayout
-        android:id="@+id/score"
+        android:id="@+id/stats_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tile_panel_layout"
+        android:id="@+id/game_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -57,9 +57,19 @@
     </LinearLayout>
 
     <pt.isel.poo.g6li21d.Sokoban.view.MessageView
-        android:id="@+id/message_view"
+        android:id="@+id/game_over_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:message="@string/level_lose"
+        app:button_msg="@string/restart"
+        android:visibility="gone" />
+
+    <pt.isel.poo.g6li21d.Sokoban.view.MessageView
+        android:id="@+id/win_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:message="@string/win_message"
+        app:button_msg="@string/next_level"
         android:visibility="gone" />
 
 </LinearLayout>

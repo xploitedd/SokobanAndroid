@@ -9,20 +9,8 @@
   <declare-styleable name="FieldView">
     <attr name="label" format="string"/>
   </declare-styleable>
+  <declare-styleable name="MessageView">
+    <attr name="message" format="string"/>
+    <attr name="button_msg" format="string"/>
+  </declare-styleable>
 </resources>
-
-<!--
-  Add this attribute in root element:
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-
-  Example:
-    <pt.isel.poo.tile.TilePanel
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:widthTiles="7"
-        app:heightTiles="7"
-        app:gridLine="1"
-        android:id="@+id/panel"
-        />
-  
--->

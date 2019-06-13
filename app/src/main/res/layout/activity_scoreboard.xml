@@ -21,44 +21,22 @@
             android:textSize="35sp"
             android:fontFamily="@font/aldrich"
             android:textColor="@color/darkBackground"/>
+
     </LinearLayout>
 
-    <LinearLayout
+    <pt.isel.poo.g6li21d.Sokoban.view.ScoreView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textStyle="bold"
-            android:layout_marginEnd="100sp"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total Moves"
-            android:textStyle="bold"
-            android:layout_marginEnd="10sp"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Max Level"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/score_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:orientation="vertical" >
 
         </LinearLayout>
 

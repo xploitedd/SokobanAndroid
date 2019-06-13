@@ -13,19 +13,22 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.activity_menu);
 
         findViewById(R.id.play_game).setOnClickListener(this::onPlayGame);
-        findViewById(R.id.select_level).setOnClickListener(this::onSelectLevel);
         findViewById(R.id.view_scoreboard).setOnClickListener(this::onShowScoreboard);
     }
 
+    /**
+     * Handles the play button
+     * @param v view
+     */
     private void onPlayGame(View v) {
         Intent it = new Intent(this, SokobanActivity.class);
         startActivity(it);
     }
 
-    private void onSelectLevel(View v) {
-
-    }
-
+    /**
+     * Handles the scoreboard button
+     * @param v view
+     */
     private void onShowScoreboard(View v) {
         Intent it = new Intent(this, ScoreboardActivity.class);
         startActivity(it);
