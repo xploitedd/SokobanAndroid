@@ -47,7 +47,7 @@ public class ScoreboardEntry implements Comparable<ScoreboardEntry> {
      * and on the max level
      * @return score for this entry
      */
-    public double getScore() { return maxLevel * 0.80 + (1.0 / moves) * 0.20; }
+    public double getScore() { return maxLevel * 0.80 + (100.0 / moves) * 0.20; }
 
     @Override
     public boolean equals(Object obj) {
@@ -62,7 +62,10 @@ public class ScoreboardEntry implements Comparable<ScoreboardEntry> {
     }
 
     @Override
-    public int compareTo(ScoreboardEntry o) { return (int) (getScore() - o.getScore()); }
+    public int compareTo(ScoreboardEntry o) {
+        double scoreDif = getScore() - o.getScore();
+        return scoreDif >= 0 ? 1 : -1;
+    }
 
     @Override
     public String toString() { return entryName + ';' + moves + ';' + maxLevel; }
