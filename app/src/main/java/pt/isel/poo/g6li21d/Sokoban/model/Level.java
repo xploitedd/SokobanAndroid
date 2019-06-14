@@ -242,6 +242,11 @@ public class Level {
         return board[l][c];
     }
 
+    /**
+     * Saves this level current state into a PrintWriter
+     * The level is saved in the same fashion Loader works
+     * @param out PrintWriter to save the level on
+     */
     public void saveState(PrintWriter out) {
         char mcletter = 'a';
         ArrayList<String> multiChars = new ArrayList<>();
@@ -250,6 +255,8 @@ public class Level {
                 Cell cell = board[y][x];
                 char type = cell.getType();
                 if (cell.hasActor()) {
+                    // it's multichar, so add it to the ArrayList to print later
+                    // and print the multichar character associated
                     char actor = cell.getActor().getType();
                     multiChars.add(mcletter - 'a', mcletter + "=" + type + "" + actor);
                     out.print(mcletter++);
@@ -261,6 +268,7 @@ public class Level {
             out.println();
         }
 
+        // print the multichars at the end
         for (String mc : multiChars)
             out.println(mc);
     }

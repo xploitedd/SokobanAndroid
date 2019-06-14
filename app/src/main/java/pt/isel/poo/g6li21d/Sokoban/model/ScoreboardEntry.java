@@ -6,20 +6,47 @@ public class ScoreboardEntry implements Comparable<ScoreboardEntry> {
     private int moves;
     private int maxLevel;
 
+    /**
+     * Creates a new ScoreboardEntry
+     * @param entryName the scoreboard name (aka the player name)
+     * @param moves the moves that this entry has
+     * @param maxLevel the max level that this entry has reached
+     */
     public ScoreboardEntry(String entryName, int moves, int maxLevel) {
         this.entryName = entryName;
         this.moves = moves;
         this.maxLevel = maxLevel;
     }
 
-    public void setMoves(int moves) { this.moves = moves; }
+    /**
+     * Adds to the amount of moves a quantity
+     * @param moves quantity of moves to add
+     */
+    public void addMoves(int moves) { this.moves += moves; }
 
+    /**
+     * Gets this entry moves
+     * @return entry moves
+     */
     public int getMoves() { return moves; }
 
+    /**
+     * Sets the max level this entry has reached
+     * @param maxLevel max level to be set
+     */
     public void setMaxLevel(int maxLevel) { this.maxLevel = maxLevel; }
 
+    /**
+     * Gets the max level this entry has reached
+     * @return max level
+     */
     public int getMaxLevel() { return maxLevel; }
 
+    /**
+     * Calculates the score for this entry based on the moves
+     * and on the max level
+     * @return score for this entry
+     */
     public double getScore() { return maxLevel * 0.80 + (1.0 / moves) * 0.20; }
 
     @Override
@@ -40,6 +67,11 @@ public class ScoreboardEntry implements Comparable<ScoreboardEntry> {
     @Override
     public String toString() { return entryName + ';' + moves + ';' + maxLevel; }
 
+    /**
+     * Generates a new ScoreboardEntry from a String
+     * @param line String to generate from
+     * @return a new ScoreboardEntry
+     */
     public static ScoreboardEntry from(String line) {
         try {
             String[] properties = line.split(";");

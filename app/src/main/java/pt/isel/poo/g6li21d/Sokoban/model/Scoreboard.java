@@ -3,7 +3,6 @@ package pt.isel.poo.g6li21d.Sokoban.model;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,6 +16,13 @@ public class Scoreboard implements Iterable<ScoreboardEntry> {
 
     private Scoreboard() {}
 
+    /**
+     * Adds a new ScoreboardEntry to the scoreboard
+     * and if the scoreboard holds more than one entry sorts it
+     * by using the default sorter
+     * @see ScoreboardEntry
+     * @param entry ScoreboardEntry to add
+     */
     public void add(ScoreboardEntry entry) {
         int idx;
         if ((idx = entries.indexOf(entry)) == -1)
@@ -28,6 +34,10 @@ public class Scoreboard implements Iterable<ScoreboardEntry> {
             entries.sort(Comparator.reverseOrder());
     }
 
+    /**
+     * Saves all the entries to an output stream
+     * @param os OutputStream where to save
+     */
     public void save(OutputStream os) {
         PrintWriter pw = new PrintWriter(os);
         for (ScoreboardEntry entry : entries)
@@ -36,6 +46,10 @@ public class Scoreboard implements Iterable<ScoreboardEntry> {
         pw.close();
     }
 
+    /**
+     * Loads all the entries from an input stream
+     * @param is InputStream where to load
+     */
     public void load(InputStream is) {
         try (Scanner s = new Scanner(is)) {
             while (s.hasNextLine()) {

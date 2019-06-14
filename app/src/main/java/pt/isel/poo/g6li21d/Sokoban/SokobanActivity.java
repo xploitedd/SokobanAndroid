@@ -68,7 +68,10 @@ public class SokobanActivity extends Activity {
 
         // views needed for messages
         winMessage = findViewById(R.id.win_message);
+        winMessage.setOnClickListener(new LevelWinListener());
         gameOverMessage = findViewById(R.id.game_over_message);
+        gameOverMessage.setOnClickListener(new LevelLoseListener());
+
         statsLayout = findViewById(R.id.stats_layout);
         gameLayout = findViewById(R.id.game_layout);
 
@@ -107,9 +110,9 @@ public class SokobanActivity extends Activity {
             level.setObserver(observer);
 
             if (savedState.getBoolean("message_win"))
-                showMessage(winMessage, new LevelWinListener());
+                showMessage(winMessage);
             else if (savedState.getBoolean("message_gameOver"))
-                showMessage(gameOverMessage, new LevelLoseListener());
+                showMessage(gameOverMessage);
             else
                 loadLevel();
         } catch (Loader.LevelFormatException e) {
@@ -123,8 +126,8 @@ public class SokobanActivity extends Activity {
     private void loadNextLevel() {
         try {
             if (level != null) {
-                // if it isn't the first level, update the player stats on the scoreboard
-                currentEntry.setMoves(level.getMoves());
+                // if it isn't when the game starts, update the player stats on the scoreboard
+                currentEntry.addMoves(level.getMoves());
                 currentEntry.setMaxLevel(level.getNumber());
             }
 
@@ -210,13 +213,20 @@ public class SokobanActivity extends Activity {
                 .setCancelable(false).show();
     }
 
-    private void showMessage(MessageView msg, View.OnClickListener listener) {
+    /**
+     * Shows a message, hiding the game and stats panels
+     * @param msg Message to show
+     */
+    private void showMessage(MessageView msg) {
         statsLayout.setVisibility(View.GONE);
         gameLayout.setVisibility(View.GONE);
-        msg.setOnClickListener(listener);
         msg.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Hides a message, showing the game and stats panels again
+     * @param msg Message to hide
+     */
     private void hideMessage(MessageView msg) {
         statsLayout.setVisibility(View.VISIBLE);
         gameLayout.setVisibility(View.VISIBLE);
@@ -282,7 +292,7 @@ public class SokobanActivity extends Activity {
         public void onCellReplaced(int l, int c, Cell cell) { tilePanel.setTile(c, l, CellTile.tileOf(getBaseContext(), cell)); }
 
         @Override
-        public void onPlayerDead(Player player) { showMessage(gameOverMessage, new LevelLoseListener()); }
+        public void onPlayerDead(Player player) { showMessage(gameOverMessage); }
 
         @Override
         public void onPlayerMove(Player player) { }
@@ -291,7 +301,7 @@ public class SokobanActivity extends Activity {
         public void onBoxMove(Box box) { }
 
         @Override
-        public void onLevelWin() { showMessage(winMessage, new LevelWinListener()); }
+        public void onLevelWin() { showMessage(winMessage); }
 
     }
 
