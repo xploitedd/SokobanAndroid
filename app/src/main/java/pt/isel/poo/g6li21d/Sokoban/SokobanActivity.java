@@ -2,14 +2,7 @@ package pt.isel.poo.g6li21d.Sokoban;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +27,6 @@ import pt.isel.poo.g6li21d.Sokoban.view.FieldView;
 import pt.isel.poo.g6li21d.Sokoban.view.MessageView;
 import pt.isel.poo.g6li21d.Sokoban.view.game.CellTile;
 import pt.isel.poo.g6li21d.Sokoban.view.TileLib.OnTileTouchListener;
-import pt.isel.poo.g6li21d.Sokoban.view.TileLib.Tile;
 import pt.isel.poo.g6li21d.Sokoban.view.TileLib.TilePanel;
 
 public class SokobanActivity extends Activity {
@@ -239,14 +231,9 @@ public class SokobanActivity extends Activity {
      * @param yTo Vector Y ending point
      * @return Direction that corresponds to this vector
      */
-    @NonNull
     private static Dir calculateDirection(int xFrom, int yFrom, int xTo, int yTo) throws IllegalArgumentException {
         int difX = xTo - xFrom, difY = yTo - yFrom;
-        Dir dir = Dir.fromVector(difX, difY);
-        if (dir == null)
-            throw new IllegalArgumentException("Error calculating a valid vector");
-
-        return dir;
+        return Dir.fromVector(difX, difY);
     }
 
     /**
@@ -266,8 +253,10 @@ public class SokobanActivity extends Activity {
         public boolean onDrag(int xFrom, int yFrom, int xTo, int yTo) {
             if (activePlayer != null) {
                 Dir dir = calculateDirection(xFrom, yFrom, xTo, yTo);
-                if (level.moveMan(dir, activePlayer.playerId))
-                    updateValues();
+                if (dir != null) {
+                    if (level.moveMan(dir, activePlayer.playerId))
+                        updateValues();
+                }
             }
 
             return false;
