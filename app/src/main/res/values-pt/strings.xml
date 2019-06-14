@@ -11,4 +11,6 @@
     <string name="scoreboard">Pontuações</string>
     <string name="play">Jogar</string>
     <string name="name">Nome</string>
+    <string name="final_msg">Obrigado por jogares! A tua aventura acabou.</string>
+    <string name="main_menu">Menu Principal</string>
 </resources>

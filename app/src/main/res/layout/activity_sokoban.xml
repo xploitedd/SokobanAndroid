@@ -72,4 +72,12 @@
         app:button_msg="@string/next_level"
         android:visibility="gone" />
 
+    <pt.isel.poo.g6li21d.Sokoban.view.MessageView
+        android:id="@+id/final_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:message="@string/final_msg"
+        app:button_msg="@string/main_menu"
+        android:visibility="gone" />
+
 </LinearLayout>

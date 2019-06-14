@@ -224,6 +224,12 @@ public class Level {
     public int getRemainingBoxes() { return boxes; }
 
     /**
+     * Sets the current level moves
+     * @param moves moves to set
+     */
+    public int setMoves(int moves) { return this.moves = moves; }
+
+    /**
      * Gets how many time the player has moved
      * @return Moves
      */

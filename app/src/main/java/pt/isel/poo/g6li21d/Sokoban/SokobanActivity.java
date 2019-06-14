@@ -48,6 +48,8 @@ public class SokobanActivity extends Activity {
 
     private MessageView winMessage;
     private MessageView gameOverMessage;
+    private MessageView finalMessage;
+
     private LinearLayout statsLayout;
     private LinearLayout gameLayout;
 
@@ -74,6 +76,8 @@ public class SokobanActivity extends Activity {
         winMessage.setOnClickListener(new LevelWinListener());
         gameOverMessage = findViewById(R.id.game_over_message);
         gameOverMessage.setOnClickListener(new LevelLoseListener());
+        finalMessage = findViewById(R.id.final_message);
+        finalMessage.setOnClickListener(v -> finish());
 
         statsLayout = findViewById(R.id.stats_layout);
         gameLayout = findViewById(R.id.game_layout);
@@ -94,13 +98,20 @@ public class SokobanActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        // save current level
         outState.putInt("level_number", level.getNumber());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         game.saveState(bos);
         outState.putByteArray("level", bos.toByteArray());
+        outState.putInt("moves", level.getMoves());
+
+        // save current scoreboard player
         outState.putString("scentry", currentEntry.toString());
+
+        // save messages status
         outState.putBoolean("message_win", winMessage.isActive());
         outState.putBoolean("message_gameOver", gameOverMessage.isActive());
+        outState.putBoolean("message_final", finalMessage.isActive());
     }
 
     @Override
@@ -114,11 +125,15 @@ public class SokobanActivity extends Activity {
             ByteArrayInputStream is = new ByteArrayInputStream(savedState.getByteArray("level"));
             level = game.load(is, levelNumber);
             level.setObserver(observer);
+            level.setMoves(savedState.getInt("moves"));
 
+            // load message or level if message is not available
             if (savedState.getBoolean("message_win"))
                 showMessage(winMessage);
             else if (savedState.getBoolean("message_gameOver"))
                 showMessage(gameOverMessage);
+            else if (savedState.getBoolean("message_final"))
+                showMessage(finalMessage);
             else
                 loadLevel();
         } catch (Loader.LevelFormatException e) {
@@ -138,7 +153,13 @@ public class SokobanActivity extends Activity {
                 scoreboard.save(openFileOutput(ScoreboardManager.SCORE_FILE, MODE_PRIVATE));
             }
 
-            level = game.loadNextLevel();
+            Level temp = game.loadNextLevel();
+            if (temp == null) {
+                showMessage(finalMessage);
+                return;
+            }
+
+            level = temp;
             level.setObserver(observer);
             loadLevel();
         } catch (Loader.LevelFormatException | FileNotFoundException e) {
