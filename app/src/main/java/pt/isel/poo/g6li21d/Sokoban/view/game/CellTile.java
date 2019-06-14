@@ -32,10 +32,10 @@ public abstract class CellTile implements Tile {
 
     @Override
     public void draw(Canvas canvas, int side) {
+        canvas.drawColor(defaultBackground);
+
         if (img != null)
             img.draw(canvas, side, side, paint);
-        else
-            canvas.drawColor(defaultBackground);
     }
 
     @Override

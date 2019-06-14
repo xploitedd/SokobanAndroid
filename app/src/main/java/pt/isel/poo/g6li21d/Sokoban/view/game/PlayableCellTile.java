@@ -31,7 +31,7 @@ public abstract class PlayableCellTile extends CellTile {
         activePlayerPaint.setColor(Color.argb(125, 0, 0, 0));
     }
 
-    PlayableCellTile(Context ctx, Cell cell) { super(ctx, cell); }
+    PlayableCellTile(Context ctx, Cell cell) { super(ctx, cell, Color.WHITE); }
 
     PlayableCellTile(Context ctx, Cell cell, int bgColor) { super(ctx, cell, bgColor); }
 

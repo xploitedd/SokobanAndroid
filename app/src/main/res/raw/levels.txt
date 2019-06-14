@@ -21,11 +21,11 @@
 XXXXXXXX
 XH@a  *X
 XX   XXX
-.XX  X..
-..X #XX.
-..X   XX
-..X   @X
-..XXXXXX
+.XX DX..
+..XK#XX.
+XXX   XX
+X P   @X
+XXXXXXXX
 a=*B
 
 //Mini Cosmos 2
