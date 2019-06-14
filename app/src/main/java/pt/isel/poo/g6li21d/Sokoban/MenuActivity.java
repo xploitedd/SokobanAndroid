@@ -4,8 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+
+import java.io.FileNotFoundException;
+
+import pt.isel.poo.g6li21d.Sokoban.model.Scoreboard;
 
 public class MenuActivity extends Activity {
+
+    private Button scoreboardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,7 +20,37 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.activity_menu);
 
         findViewById(R.id.play_game).setOnClickListener(this::onPlayGame);
-        findViewById(R.id.view_scoreboard).setOnClickListener(this::onShowScoreboard);
+
+        scoreboardButton = findViewById(R.id.view_scoreboard);
+        tryShowScoreboardButton();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tryShowScoreboardButton();
+    }
+
+    /**
+     * Tries to show the scoreboard button
+     * that is dependent if there's something or not
+     * on the scoreboard, or if the scoreboard can load or not
+     */
+    private void tryShowScoreboardButton() {
+        try {
+            // loads all scores into the scoreboard instance
+            Scoreboard scoreboard = ScoreboardManager.getInstance();
+            scoreboard.load(openFileInput(ScoreboardManager.SCORE_FILE));
+            if (scoreboard.hasEntry()) {
+                scoreboardButton.setOnClickListener(this::onShowScoreboard);
+                scoreboardButton.setVisibility(View.VISIBLE);
+                return;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        scoreboardButton.setVisibility(View.GONE);
     }
 
     /**

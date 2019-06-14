@@ -144,7 +144,7 @@ public class SokobanActivity extends Activity {
     /**
      * Loads the next level, if available
      */
-    private void loadNextLevel() {
+    private boolean loadNextLevel() {
         try {
             if (level != null) {
                 // if it isn't when the game starts, update the player stats on the scoreboard
@@ -156,15 +156,18 @@ public class SokobanActivity extends Activity {
             Level temp = game.loadNextLevel();
             if (temp == null) {
                 showMessage(finalMessage);
-                return;
+                return false;
             }
 
             level = temp;
             level.setObserver(observer);
             loadLevel();
+            return true;
         } catch (Loader.LevelFormatException | FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     /**
@@ -329,17 +332,17 @@ public class SokobanActivity extends Activity {
         public void onBoxMove(Box box) { }
 
         @Override
-        public void onLevelWin() { showMessage(winMessage); }
+        public void onLevelWin() {
+            if (loadNextLevel())
+                showMessage(winMessage);
+        }
 
     }
 
     private class LevelWinListener implements View.OnClickListener {
 
         @Override
-        public void onClick(View v) {
-            hideMessage(winMessage);
-            loadNextLevel();
-        }
+        public void onClick(View v) { hideMessage(winMessage); }
 
     }
 

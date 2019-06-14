@@ -19,10 +19,14 @@ public class Game {
     }
 
     public Level loadNextLevel() throws Loader.LevelFormatException {
-        curLevel = new Loader(createScanner()).load(++levelNumber);
-        if (curLevel!=null)
+        Level temp = new Loader(createScanner()).load(levelNumber + 1);
+        if (temp != null) {
+            curLevel = temp;
+            ++levelNumber;
             curLevel.init(this);
-        return curLevel;
+        }
+
+        return temp;
     }
 
     public void restart() {

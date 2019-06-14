@@ -65,6 +65,12 @@ public class Scoreboard implements Iterable<ScoreboardEntry> {
         }
     }
 
+    /**
+     * Returns true if the scoreboard has more than zero entries
+     * @return true if it has at least one entry, false otherwise
+     */
+    public boolean hasEntry() { return entries.size() != 0; }
+
     @Override
     public Iterator<ScoreboardEntry> iterator() { return entries.iterator(); }
 
