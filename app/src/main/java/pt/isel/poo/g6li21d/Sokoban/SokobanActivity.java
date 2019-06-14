@@ -153,16 +153,14 @@ public class SokobanActivity extends Activity {
 
         int lw = level.getWidth(), lh = level.getHeight();
         tilePanel.setSize(lw, lh);
-        Tile[][] tiles = new Tile[lw][lh];
         for (int y = 0; y < lh; ++y) {
             for (int x = 0; x < lw; ++x) {
                 Cell cell = level.getCell(y, x);
-                tiles[x][y] = CellTile.tileOf(this, cell);
+                tilePanel.setTile(x, y, CellTile.tileOf(this, cell));
                 setActivePlayer(cell.getActor());
             }
         }
 
-        tilePanel.setAllTiles(tiles);
         updateValues();
     }
 
