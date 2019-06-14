@@ -47,7 +47,7 @@ public class ScoreboardEntry implements Comparable<ScoreboardEntry> {
      * and on the max level
      * @return score for this entry
      */
-    public double getScore() { return maxLevel * 0.95 + (100.0 / (moves + 1)) * 0.05; }
+    public double getScore() { return maxLevel * 0.95 + (100.0 / (moves + 1)) * 0.05 - 5; }
 
     @Override
     public boolean equals(Object obj) {
