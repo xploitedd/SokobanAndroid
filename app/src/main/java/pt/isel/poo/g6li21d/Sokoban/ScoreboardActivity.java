@@ -15,8 +15,7 @@ import pt.isel.poo.g6li21d.Sokoban.view.ScoreView;
 
 public class ScoreboardActivity extends Activity {
 
-    private static final String SCORE_FILE = "scores.txt";
-    private static Scoreboard scoreboard = Scoreboard.INSTANCE;
+    private static final Scoreboard scoreboard = ScoreboardManager.getInstance();
 
     private LinearLayout scoreTable;
 
@@ -33,7 +32,7 @@ public class ScoreboardActivity extends Activity {
 
     private void loadScores() {
         try {
-            InputStream is = openFileInput(SCORE_FILE);
+            InputStream is = openFileInput(ScoreboardManager.SCORE_FILE);
             scoreboard.load(is);
         } catch (FileNotFoundException e) {
             Log.w(SokobanActivity.APP_NAME, "There are no scores to read!");
@@ -42,7 +41,7 @@ public class ScoreboardActivity extends Activity {
 
     private void saveScores() {
         try {
-            OutputStream os = openFileOutput(SCORE_FILE, MODE_PRIVATE);
+            OutputStream os = openFileOutput(ScoreboardManager.SCORE_FILE, MODE_PRIVATE);
             scoreboard.save(os);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.util.Objects;
 
 import pt.isel.poo.g6li21d.Sokoban.model.Dir;
@@ -41,6 +42,8 @@ public class SokobanActivity extends Activity {
     private FieldView movesView;
     private FieldView boxesView;
     private Player activePlayer;
+
+    private Scoreboard scoreboard;
     private ScoreboardEntry currentEntry;
 
     private MessageView winMessage;
@@ -75,6 +78,9 @@ public class SokobanActivity extends Activity {
         statsLayout = findViewById(R.id.stats_layout);
         gameLayout = findViewById(R.id.game_layout);
 
+        // get a scoreboard instance
+        scoreboard = ScoreboardManager.getInstance();
+
         Button restart = findViewById(R.id.restart);
         restart.setOnClickListener(v -> restartLevel());
 
@@ -102,7 +108,7 @@ public class SokobanActivity extends Activity {
         super.onRestoreInstanceState(savedState);
         try {
             currentEntry = ScoreboardEntry.from(Objects.requireNonNull(savedState.getString("scentry")));
-            Scoreboard.INSTANCE.add(currentEntry);
+            scoreboard.add(currentEntry);
 
             int levelNumber = savedState.getInt("level_number", 1);
             ByteArrayInputStream is = new ByteArrayInputStream(savedState.getByteArray("level"));
@@ -129,12 +135,13 @@ public class SokobanActivity extends Activity {
                 // if it isn't when the game starts, update the player stats on the scoreboard
                 currentEntry.addMoves(level.getMoves());
                 currentEntry.setMaxLevel(level.getNumber());
+                scoreboard.save(openFileOutput(ScoreboardManager.SCORE_FILE, MODE_PRIVATE));
             }
 
             level = game.loadNextLevel();
             level.setObserver(observer);
             loadLevel();
-        } catch (Loader.LevelFormatException e) {
+        } catch (Loader.LevelFormatException | FileNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -208,7 +215,7 @@ public class SokobanActivity extends Activity {
                         playerName = "Player";
 
                     currentEntry = new ScoreboardEntry(playerName, 0, 0);
-                    Scoreboard.INSTANCE.add(currentEntry);
+                    scoreboard.add(currentEntry);
                 }).setNegativeButton("Go back", (dialog, which) -> finish())
                 .setCancelable(false).show();
     }
