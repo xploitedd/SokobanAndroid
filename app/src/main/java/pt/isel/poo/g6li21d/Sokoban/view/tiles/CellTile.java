@@ -45,15 +45,15 @@ public abstract class CellTile implements Tile {
 
     public void setTileBackgroundImage(Img img) { this.img = img; }
 
-    public Img generateImage(Img cache, Context ctx, int resId) {
+    public int getX() { return cell.column; }
+
+    public int getY() { return cell.line; }
+
+    static Img generateImage(Img cache, Context ctx, int resId) {
         // if there's no cached image then generate a new one
         // and return it so it can be saved in cache for future uses
         return cache == null ? new Img(ctx, resId) : cache;
     }
-
-    public int getX() { return cell.column; }
-
-    public int getY() { return cell.line; }
 
     public static CellTile tileOf(Context ctx, Cell cell) {
         if (cell == null)
