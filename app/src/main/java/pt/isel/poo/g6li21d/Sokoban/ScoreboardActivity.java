@@ -23,6 +23,8 @@ public class ScoreboardActivity extends Activity {
     }
 
     private void renderScores() {
+        // sort the scoreboard, so all the scores are properly shown
+        scoreboard.sort();
         // remove existing views if there are any
         scoreTable.removeAllViewsInLayout();
         // add the scoreboard entries

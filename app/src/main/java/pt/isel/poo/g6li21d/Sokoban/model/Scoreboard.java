@@ -30,6 +30,13 @@ public class Scoreboard implements Iterable<ScoreboardEntry> {
         else
             entries.set(idx, entry);
 
+        sort();
+    }
+
+    /**
+     * Sorts the entire scoreboard, if needed
+     */
+    public void sort() {
         if (entries.size() > 1)
             entries.sort(Comparator.reverseOrder());
     }

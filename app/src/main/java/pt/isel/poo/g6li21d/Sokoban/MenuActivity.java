@@ -12,6 +12,7 @@ import pt.isel.poo.g6li21d.Sokoban.model.Scoreboard;
 
 public class MenuActivity extends Activity {
 
+    private Scoreboard scoreboard;
     private Button scoreboardButton;
 
     @Override
@@ -21,8 +22,15 @@ public class MenuActivity extends Activity {
 
         findViewById(R.id.play_game).setOnClickListener(this::onPlayGame);
 
-        scoreboardButton = findViewById(R.id.view_scoreboard);
-        tryShowScoreboardButton();
+        try {
+            // loads the scoreboard instance with all the scores from the saved file
+            scoreboardButton = findViewById(R.id.view_scoreboard);
+            scoreboard = ScoreboardManager.getInstance();
+            scoreboard.load(openFileInput(ScoreboardManager.SCORE_FILE));
+            tryShowScoreboardButton();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -34,20 +42,13 @@ public class MenuActivity extends Activity {
     /**
      * Tries to show the scoreboard button
      * that is dependent if there's something or not
-     * on the scoreboard, or if the scoreboard can load or not
+     * on the scoreboard
      */
     private void tryShowScoreboardButton() {
-        try {
-            // loads all scores into the scoreboard instance
-            Scoreboard scoreboard = ScoreboardManager.getInstance();
-            scoreboard.load(openFileInput(ScoreboardManager.SCORE_FILE));
-            if (scoreboard.hasEntry()) {
-                scoreboardButton.setOnClickListener(this::onShowScoreboard);
-                scoreboardButton.setVisibility(View.VISIBLE);
-                return;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (scoreboard.hasEntry()) {
+            scoreboardButton.setOnClickListener(this::onShowScoreboard);
+            scoreboardButton.setVisibility(View.VISIBLE);
+            return;
         }
 
         scoreboardButton.setVisibility(View.GONE);
