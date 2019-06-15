@@ -3,6 +3,7 @@ package pt.isel.poo.g6li21d.Sokoban;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -210,8 +211,9 @@ public class SokobanActivity extends Activity {
     /**
      * Sets the current Player
      * @param actor Actor to be set as a current player
+     * @return true if set, false if error occurred
      */
-    private void setActivePlayer(Actor actor) {
+    private boolean setActivePlayer(Actor actor) {
         if (actor != null && actor.getType() == Player.TYPE) {
             Player p = (Player) actor;
             if (activePlayer != null)
@@ -219,7 +221,30 @@ public class SokobanActivity extends Activity {
 
             p.setActive(true);
             activePlayer = p;
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Moves the player in the specified direction if possible
+     * @param xFrom From x
+     * @param yFrom From y
+     * @param xTo To x
+     * @param yTo To y
+     * @return true if moved, false otherwise
+     */
+    private boolean moveActivePlayer(int xFrom, int yFrom, int xTo, int yTo) {
+        Dir dir = calculateDirection(xFrom, yFrom, xTo, yTo);
+        if (dir != null) {
+            if (level.moveMan(dir, activePlayer.playerId)) {
+                updateValues();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -285,21 +310,18 @@ public class SokobanActivity extends Activity {
         @Override
         public boolean onClick(int xTile, int yTile) {
             Cell cell = level.getCell(yTile, xTile);
-            setActivePlayer(cell.getActor());
-            tilePanel.invalidate(xTile, yTile);
-            return true;
+            Cell from = level.getPlayerCell(activePlayer.playerId);
+            if (setActivePlayer(cell.getActor()) || moveActivePlayer(from.column, from.line, cell.column, cell.line)) {
+                tilePanel.invalidate(xTile, yTile);
+                return true;
+            }
+
+            return false;
         }
 
         @Override
         public boolean onDrag(int xFrom, int yFrom, int xTo, int yTo) {
-            if (activePlayer != null) {
-                Dir dir = calculateDirection(xFrom, yFrom, xTo, yTo);
-                if (dir != null) {
-                    if (level.moveMan(dir, activePlayer.playerId))
-                        updateValues();
-                }
-            }
-
+            moveActivePlayer(xFrom, yFrom, xTo, yTo);
             return false;
         }
 
@@ -339,6 +361,10 @@ public class SokobanActivity extends Activity {
 
     }
 
+    /**
+     * Handles when a player wins the level
+     * and clicks the button to proceed
+     */
     private class LevelWinListener implements View.OnClickListener {
 
         @Override
@@ -346,6 +372,10 @@ public class SokobanActivity extends Activity {
 
     }
 
+    /**
+     * Handles when a player loses a level
+     * and clicks the button to restart
+     */
     private class LevelLoseListener implements View.OnClickListener {
 
         @Override

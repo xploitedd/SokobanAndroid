@@ -248,6 +248,8 @@ public class Level {
         return board[l][c];
     }
 
+    public Cell getPlayerCell(int playerId) { return playersCell[playerId]; }
+
     /**
      * Saves this level current state into a PrintWriter
      * The level is saved in the same fashion Loader works
