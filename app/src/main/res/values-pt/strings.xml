@@ -13,4 +13,8 @@
     <string name="name">Nome</string>
     <string name="final_msg">Obrigado por jogares!\nA tua aventura acabou.</string>
     <string name="main_menu">Menu Principal</string>
+    <string name="player_name">Nome do Jogador</string>
+    <string name="pick_player_name">Escolha o nome do jogador</string>
+    <string name="new_game">Novo Jogo</string>
+    <string name="go_back">Voltar Atrás</string>
 </resources>

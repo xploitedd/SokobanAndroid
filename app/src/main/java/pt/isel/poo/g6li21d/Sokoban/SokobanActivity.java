@@ -252,20 +252,19 @@ public class SokobanActivity extends Activity {
      * it into the scoreboard.
      */
     private void createPlayerOnScoreboard() {
-        // todo: internationalize
         EditText editText = new EditText(this);
-        editText.setHint("Player name");
+        editText.setHint(R.string.player_name);
         new AlertDialog.Builder(this)
-                .setTitle("Choose the player name")
+                .setTitle(R.string.pick_player_name)
                 .setView(editText)
-                .setPositiveButton("New Game", (dialog, which) -> {
+                .setPositiveButton(R.string.new_game, (dialog, which) -> {
                     String playerName = editText.getText().toString();
                     if (playerName.length() == 0)
                         playerName = "Player";
 
                     currentEntry = new ScoreboardEntry(playerName, 0, 0);
                     scoreboard.add(currentEntry);
-                }).setNegativeButton("Go back", (dialog, which) -> finish())
+                }).setNegativeButton(R.string.go_back, (dialog, which) -> finish())
                 .setCancelable(false).show();
     }
 

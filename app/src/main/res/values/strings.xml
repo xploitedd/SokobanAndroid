@@ -14,4 +14,8 @@
     <string name="level_abbr" translatable="false">L</string>
     <string name="final_msg">Thanks for playing!\nYour adventure is over.</string>
     <string name="main_menu">Main Menu</string>
+    <string name="player_name">Player Name</string>
+    <string name="pick_player_name">Pick your player name</string>
+    <string name="new_game">New Game</string>
+    <string name="go_back">Go Back</string>
 </resources>
