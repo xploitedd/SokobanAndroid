@@ -42,7 +42,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <pt.isel.poo.g6li21d.Sokoban.view.TileLib.TilePanel
+        <pt.isel.poo.g6li21d.TileLib.TilePanel
             android:id="@+id/tile_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

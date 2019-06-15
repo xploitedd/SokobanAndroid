@@ -1,4 +1,4 @@
-package pt.isel.poo.g6li21d.Sokoban.view.game;
+package pt.isel.poo.g6li21d.Sokoban.view.tiles;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,12 +8,12 @@ import android.graphics.Paint;
 import java.lang.reflect.InvocationTargetException;
 
 import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
-import pt.isel.poo.g6li21d.Sokoban.view.TileLib.Img;
-import pt.isel.poo.g6li21d.Sokoban.view.TileLib.Tile;
+import pt.isel.poo.g6li21d.TileLib.Img;
+import pt.isel.poo.g6li21d.TileLib.Tile;
 
 public abstract class CellTile implements Tile {
 
-    public static final String PACKAGE = "pt.isel.poo.g6li21d.Sokoban.view.game";
+    public static final String PACKAGE = "pt.isel.poo.g6li21d.Sokoban.view.tiles";
 
     protected static final Paint paint = new Paint();
 

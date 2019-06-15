@@ -15,11 +15,20 @@ public class FieldView extends LinearLayout {
     private TextView label;
     private TextView value;
 
+    /**
+     * Creates a new FieldView
+     * @param context Context
+     */
     public FieldView(Context context) {
         super(context);
         init(context);
     }
 
+    /**
+     * Creates a new FieldView
+     * @param context Context
+     * @param attrs Attributes to create with
+     */
     public FieldView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -31,6 +40,10 @@ public class FieldView extends LinearLayout {
         ta.recycle();
     }
 
+    /**
+     * Initializes the FieldView
+     * @param ctx Context
+     */
     private void init(Context ctx) {
         LayoutInflater li = LayoutInflater.from(ctx);
         li.inflate(R.layout.field_view, this);

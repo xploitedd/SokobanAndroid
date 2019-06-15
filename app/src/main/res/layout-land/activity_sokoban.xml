@@ -46,7 +46,7 @@
         android:id="@+id/game_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <pt.isel.poo.g6li21d.Sokoban.view.TileLib.TilePanel
+        <pt.isel.poo.g6li21d.TileLib.TilePanel
             android:id="@+id/tile_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

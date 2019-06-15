@@ -1,4 +1,4 @@
-package pt.isel.poo.g6li21d.Sokoban.view.TileLib;
+package pt.isel.poo.g6li21d.TileLib;
 
 /**
  * Interface to implemented by listeners of animations.

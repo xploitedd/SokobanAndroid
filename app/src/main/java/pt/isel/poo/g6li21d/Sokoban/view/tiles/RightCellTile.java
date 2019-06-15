@@ -1,10 +1,10 @@
-package pt.isel.poo.g6li21d.Sokoban.view.game;
+package pt.isel.poo.g6li21d.Sokoban.view.tiles;
 
 import android.content.Context;
 
 import pt.isel.poo.g6li21d.Sokoban.R;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
-import pt.isel.poo.g6li21d.Sokoban.view.TileLib.Img;
+import pt.isel.poo.g6li21d.TileLib.Img;
 
 public class RightCellTile extends PlayableCellTile {
 

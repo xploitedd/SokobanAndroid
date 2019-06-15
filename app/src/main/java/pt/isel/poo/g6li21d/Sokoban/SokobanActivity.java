@@ -1,9 +1,10 @@
 package pt.isel.poo.g6li21d.Sokoban;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,9 +28,9 @@ import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
 
 import pt.isel.poo.g6li21d.Sokoban.view.FieldView;
 import pt.isel.poo.g6li21d.Sokoban.view.MessageView;
-import pt.isel.poo.g6li21d.Sokoban.view.game.CellTile;
-import pt.isel.poo.g6li21d.Sokoban.view.TileLib.OnTileTouchListener;
-import pt.isel.poo.g6li21d.Sokoban.view.TileLib.TilePanel;
+import pt.isel.poo.g6li21d.Sokoban.view.tiles.CellTile;
+import pt.isel.poo.g6li21d.TileLib.OnTileTouchListener;
+import pt.isel.poo.g6li21d.TileLib.TilePanel;
 
 public class SokobanActivity extends Activity {
 
@@ -46,6 +47,7 @@ public class SokobanActivity extends Activity {
 
     private Scoreboard scoreboard;
     private ScoreboardEntry currentEntry;
+    private AlertDialog dialog;
 
     private MessageView winMessage;
     private MessageView gameOverMessage;
@@ -107,7 +109,10 @@ public class SokobanActivity extends Activity {
         outState.putInt("moves", level.getMoves());
 
         // save current scoreboard player
-        outState.putString("scentry", currentEntry.toString());
+        if (currentEntry != null)
+            outState.putString("scentry", currentEntry.toString());
+        else
+            dialog.dismiss();
 
         // save messages status
         outState.putBoolean("message_win", winMessage.isActive());
@@ -119,8 +124,15 @@ public class SokobanActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedState) {
         super.onRestoreInstanceState(savedState);
         try {
-            currentEntry = ScoreboardEntry.from(Objects.requireNonNull(savedState.getString("scentry")));
-            scoreboard.add(currentEntry);
+            String scEntry = savedState.getString("scentry");
+            if (scEntry != null) {
+                currentEntry = ScoreboardEntry.from(scEntry);
+                scoreboard.add(currentEntry);
+            } else {
+                // if there isn't a score board player then ask to
+                // create a new one
+                createPlayerOnScoreboard();
+            }
 
             int levelNumber = savedState.getInt("level_number", 1);
             ByteArrayInputStream is = new ByteArrayInputStream(savedState.getByteArray("level"));
@@ -252,12 +264,13 @@ public class SokobanActivity extends Activity {
      * it into the scoreboard.
      */
     private void createPlayerOnScoreboard() {
-        EditText editText = new EditText(this);
-        editText.setHint(R.string.player_name);
-        new AlertDialog.Builder(this)
+        @SuppressLint("InflateParams")
+        final View view = getLayoutInflater().inflate(R.layout.start_dialog, null);
+        dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.pick_player_name)
-                .setView(editText)
+                .setView(view)
                 .setPositiveButton(R.string.new_game, (dialog, which) -> {
+                    EditText editText = view.findViewById(R.id.player_name);
                     String playerName = editText.getText().toString();
                     if (playerName.length() == 0)
                         playerName = "Player";

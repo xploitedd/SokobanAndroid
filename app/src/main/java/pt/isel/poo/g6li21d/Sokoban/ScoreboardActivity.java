@@ -23,7 +23,9 @@ public class ScoreboardActivity extends Activity {
     }
 
     private void renderScores() {
+        // remove existing views if there are any
         scoreTable.removeAllViewsInLayout();
+        // add the scoreboard entries
         for (ScoreboardEntry entry : scoreboard) {
             ScoreView sv = new ScoreView(this);
             sv.setName(entry.entryName);
@@ -33,6 +35,7 @@ public class ScoreboardActivity extends Activity {
             scoreTable.addView(sv);
         }
 
+        // invalidate so the entries are displayed
         scoreTable.invalidate();
     }
 

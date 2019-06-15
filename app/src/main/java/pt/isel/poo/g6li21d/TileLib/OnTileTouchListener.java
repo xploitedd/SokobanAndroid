@@ -1,4 +1,4 @@
-package pt.isel.poo.g6li21d.Sokoban.view.TileLib;
+package pt.isel.poo.g6li21d.TileLib;
 
 /**
  * Listener of tiles touches and moves.

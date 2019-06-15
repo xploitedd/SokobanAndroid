@@ -1,4 +1,4 @@
-package pt.isel.poo.g6li21d.Sokoban.view.game;
+package pt.isel.poo.g6li21d.Sokoban.view.tiles;
 
 import android.content.Context;
 
