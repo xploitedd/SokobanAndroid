@@ -22,10 +22,10 @@ public abstract class PlayableCellTile extends CellTile {
     private static final int LIGHT_BOX_RES = R.drawable.light_box;
     private static final int KEY_RES = R.drawable.key;
 
-    private static Img playerImg;
-    private static Img boxImg;
-    private static Img lightBoxImg;
-    private static Img keyImg;
+    protected static Img playerImg;
+    protected static Img boxImg;
+    protected static Img lightBoxImg;
+    protected static Img keyImg;
 
     static {
         activePlayerPaint.setColor(Color.argb(125, 0, 0, 0));
@@ -61,15 +61,15 @@ public abstract class PlayableCellTile extends CellTile {
         }
     }
 
-    private void drawPlayer(Canvas canvas, int side) {
+    protected void drawPlayer(Canvas canvas, int side) {
         Player p = (Player) cell.getActor();
         playerImg.draw(canvas, side, side, p.isActive() ? paint : activePlayerPaint);
     }
 
-    private void drawBox(Canvas canvas, int side) { boxImg.draw(canvas, side, side, paint); }
+    protected void drawBox(Canvas canvas, int side) { boxImg.draw(canvas, side, side, paint); }
 
-    private void drawLightBox(Canvas canvas, int side) { lightBoxImg.draw(canvas, side, side, paint); }
+    protected void drawLightBox(Canvas canvas, int side) { lightBoxImg.draw(canvas, side, side, paint); }
 
-    private void drawKey(Canvas canvas, int side) { keyImg.draw(canvas, side, side, paint); }
+    protected void drawKey(Canvas canvas, int side) { keyImg.draw(canvas, side, side, paint); }
 
 }
