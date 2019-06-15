@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import pt.isel.poo.g6li21d.Sokoban.model.actors.Box;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
 
-public class ObjectiveCellTile extends PlayableCellTile {
+public final class ObjectiveCellTile extends PlayableCellTile {
 
     private static final Paint boxInObjective = new Paint();
     private static final int COLOR_NO_BOX = Color.RED;
@@ -18,6 +18,11 @@ public class ObjectiveCellTile extends PlayableCellTile {
         boxInObjective.setColor(Color.argb(200, 0, 0, 0));
     }
 
+    /**
+     * Creates a new ObjectiveCellTile object
+     * @param ctx Context
+     * @param cell associated objective cell
+     */
     ObjectiveCellTile(Context ctx, Cell cell) { super(ctx, cell, COLOR_NO_BOX); }
 
     @Override

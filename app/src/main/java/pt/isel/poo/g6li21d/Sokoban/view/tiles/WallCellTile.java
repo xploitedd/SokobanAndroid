@@ -11,6 +11,11 @@ public class WallCellTile extends CellTile {
     private static final int RESID = R.drawable.wall;
     private static Img image;
 
+    /**
+     * Creates a new WallCellTile object
+     * @param ctx Context
+     * @param cell associated wall cell
+     */
     WallCellTile(Context ctx, Cell cell) {
         super(ctx, cell);
         image = generateImage(image, ctx, RESID);

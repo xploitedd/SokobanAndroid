@@ -31,8 +31,18 @@ public abstract class PlayableCellTile extends CellTile {
         activePlayerPaint.setColor(Color.argb(125, 0, 0, 0));
     }
 
-    PlayableCellTile(Context ctx, Cell cell) { super(ctx, cell, Color.WHITE); }
+    /**
+     * Creates a new PlayableCellTile object
+     * @param ctx Context
+     * @param cell associated playable cell
+     */
+    PlayableCellTile(Context ctx, Cell cell) { super(ctx, cell); }
 
+    /**
+     * Creates a new PlayableCellTile object
+     * @param ctx Context
+     * @param cell associated playable cell
+     */
     PlayableCellTile(Context ctx, Cell cell, int bgColor) { super(ctx, cell, bgColor); }
 
     {
@@ -61,15 +71,35 @@ public abstract class PlayableCellTile extends CellTile {
         }
     }
 
+    /**
+     * Draws a player on this cell
+     * @param canvas Canvas where to draw
+     * @param side side length
+     */
     protected void drawPlayer(Canvas canvas, int side) {
         Player p = (Player) cell.getActor();
         playerImg.draw(canvas, side, side, p.isActive() ? paint : activePlayerPaint);
     }
 
+    /**
+     * Draws a box on this cell
+     * @param canvas Canvas where to draw
+     * @param side side length
+     */
     protected void drawBox(Canvas canvas, int side) { boxImg.draw(canvas, side, side, paint); }
 
+    /**
+     * Draws a light box on this cell
+     * @param canvas Canvas where to draw
+     * @param side side length
+     */
     protected void drawLightBox(Canvas canvas, int side) { lightBoxImg.draw(canvas, side, side, paint); }
 
+    /**
+     * Draws a key on this cell
+     * @param canvas Canvas where to draw
+     * @param side side length
+     */
     protected void drawKey(Canvas canvas, int side) { keyImg.draw(canvas, side, side, paint); }
 
 }

@@ -9,6 +9,11 @@ public class FloorCellTile extends PlayableCellTile {
 
     private static final int bgColor = Color.WHITE;
 
+    /**
+     * Creates a new FloorCellTile object
+     * @param ctx Context
+     * @param cell associated floor cell
+     */
     FloorCellTile(Context ctx, Cell cell) { super(ctx, cell, bgColor); }
 
 }
