@@ -5,6 +5,7 @@ import pt.isel.poo.g6li21d.Sokoban.model.Level;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.DoorCell;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.FloorCell;
+import pt.isel.poo.g6li21d.Sokoban.model.cells.HoleCell;
 
 public final class Key extends Actor {
 
@@ -22,6 +23,8 @@ public final class Key extends Actor {
         if (super.move(level, dir, from, to)) {
             if (to.getType() == DoorCell.TYPE)
                 level.replaceCell(to, new FloorCell(to.line, to.column));
+            else if (to.getType() == HoleCell.TYPE)
+                level.removeActor(to);
 
             return true;
         }

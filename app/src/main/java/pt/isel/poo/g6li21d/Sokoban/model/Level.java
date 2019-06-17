@@ -139,7 +139,8 @@ public class Level {
         if (player.move(this, dir, playerCell, nextCell)) {
             playersCell[playerId] = nextCell;
             ++moves;
-            manIsDead = nextCell.getType() == HoleCell.TYPE;
+            manIsDead = player.isDead();
+
             observer.onPlayerMove(player);
             if (manIsDead)
                 observer.onPlayerDead(player);
@@ -150,6 +151,17 @@ public class Level {
         }
 
         return false;
+    }
+
+    /**
+     * Removes actor from a cell
+     * @param cell cell to remove the actor
+     */
+    public void removeActor(Cell cell) {
+        if (cell.hasActor()) {
+            cell.setActor(null);
+            updateCell(cell);
+        }
     }
 
     /**
