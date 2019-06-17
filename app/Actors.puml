@@ -1,0 +1,46 @@
+@startuml
+hide empty members
+
+Actor <|-- Player
+Actor <|-- Box
+Actor <|-- Key
+Box <|-- LightBox
+
+abstract class Actor {
+    -type: char
+    ~Actor(type: char)
+    +move(level, dir, to, from): boolean
+    +getType(): char
+}
+
+class Player {
+    +{static} TYPE: char
+    -playerId: int
+    -active: boolean
+    -dead: boolean
+    +Player(playerId: int)
+    +move(level, dir, to, from): boolean
+    +setActive(active: boolean)
+    +isActive(): boolean
+    +isDead(): boolean
+}
+
+class Box {
+    +{static} TYPE: char
+    +Box()
+    #Box(type: char)
+    +move(level, dir, to, from): boolean
+}
+
+class LightBox {
+    +{static} TYPE: char
+    +LightBox()
+    +move(level, dir, to, from): boolean
+}
+
+class Key {
+    +{static} TYPE: char
+    +Key()
+    +move(level, dir, to, from): boolean
+}
+@enduml

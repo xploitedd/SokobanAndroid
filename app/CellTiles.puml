@@ -1,0 +1,122 @@
+@startuml
+hide empty members
+
+Tile <|.. CellTile
+
+CellTile <|-- PlayableCellTile
+CellTile <|-- EmptyCellTile
+PlayableCellTile <|-- FloorCellTile
+PlayableCellTile <|-- HoleCellTile
+PlayableCellTile <|-- DoorCellTile
+CellTile <|-- WallCellTile
+
+FloorCellTile <|-- UpCellTile
+FloorCellTile <|-- DownCellTile
+FloorCellTile <|-- LeftCellTile
+FloorCellTile <|-- RightCellTile
+
+PlayableCellTile <|-- ObjectiveCellTile
+
+interface Tile
+
+abstract class CellTile {
+    +{static} PACKAGE: String
+    #{static} paint: Paint
+    #context: Context
+    #cell: Cell
+    -defaultBackground: int
+    -img: Img
+
+    ~CellTile(ctx: Context, cell: Cell)
+    ~CellTile(ctx: Context, cell: Cell, defaultBackground: int)
+    +draw(canvas: Canvas, side: int)
+    +setSelect(selected: boolean): boolean
+    +setBackgroundColor(bgColor: int)
+    +setTileBackgroundImage(img: Img)
+    +getX(): int
+    +getY(): int
+    ~{static} generateImage(cache: Img, ctx: Context, resId: int)
+    +{static} tileOf(cell: Cell): CellTile
+}
+
+abstract class PlayableCellTile {
+    -{static}ACTIVE_PLAYER_PAINT: Paint
+    -{static}PLAYER_RES: int
+    -{static}BOX_RES: int
+    -{static}LIGHT_BOX_RES: int
+    -{static}KEY_RES: int
+    #{static}playerImg: Img
+    #{static}boxImg: Img
+    #{static}lightBoxImg: Img
+    #{static}keyImg: Img
+    ~PlayableCellTile(ctx: Context, cell: Cell)
+    ~PlayableCellTile(ctx: Context, cell: Cell, bgColor: int)
+    +draw(canvas: Canvas, side: int)
+    #drawPlayer(canvas: Canvas, side: int)
+    #drawBox(canvas: Canvas, side: int)
+    #drawLightBox(canvas: Canvas, side: int)
+    #drawKey(canvas: Canvas, side: int)
+}
+
+class FloorCellTile {
+    -{static}BACKGROUND_COLOR: int
+    ~FloorCellTile(ctx: Context, cell: Cell)
+}
+
+class UpCellTile {
+    -{static}DIR_UP_RES: int
+    -{static}upImg: Img
+    ~UpCellTile(ctx: Context, cell: Cell)
+}
+
+class DownCellTile {
+    -{static}DIR_DOWN_RES: int
+    -{static}downImg: Img
+    ~DownCellTile(ctx: Context, cell: Cell)
+}
+
+class LeftCellTile {
+    -{static}DIR_LEFT_RES: int
+    -{static}leftImg: Img
+    ~LeftCellTile(ctx: Context, cell: Cell)
+}
+
+class RightCellTile {
+    -{static}DIR_RIGHT_RES: int
+    -{static}rightImg: Img
+    ~RightCellTile(ctx: Context, cell: Cell)
+}
+
+class EmptyCellTile {
+    ~EmptyCellTile(ctx: Context, cell: Cell)
+}
+
+class WallCellTile {
+    -{static}RESID: int
+    -{static}image: Img
+    ~WallCellTile(ctx: Context, cell: Cell)
+}
+
+class HoleCellTile {
+    -{static}RESID: int
+    -{static}image: Img
+    ~HoleCellTile(ctx: Context, cell: Cell)
+}
+
+class DoorCellTile {
+    -{static}RESID: int
+    -{static}image: Img
+    ~DoorCellTile(ctx: Context, cell: Cell)
+}
+
+class ObjectiveCellTile {
+    -{static}BOX_IN_OBJECTIVE: Paint
+    -{static}COLOR_NO_BOX: int
+    -{static}COLOR_BOX: int
+    ~ObjectiveCellTile(ctx: Context, cell: Cell)
+    +draw(canvas: Canvas, side: int)
+    #drawBox(canvas: Canvas, side: int)
+    #drawLightBox(canvas: Canvas, side: int)
+}
+
+@enduml

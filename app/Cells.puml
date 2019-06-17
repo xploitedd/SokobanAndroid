@@ -1,0 +1,100 @@
+@startuml
+hide empty members
+
+Cell <|-- PlayableCell
+Cell <|-- EmptyCell
+PlayableCell <|-- FloorCell
+PlayableCell <|-- HoleCell
+PlayableCell <|-- DoorCell
+Cell <|-- WallCell
+
+FloorCell <|-- DirectionalCell
+FloorCell <|-- ObjectiveCell
+DirectionalCell <|-- UpCell
+DirectionalCell <|-- DownCell
+DirectionalCell <|-- LeftCell
+DirectionalCell <|-- RightCell
+
+abstract class Cell {
+    -type: char
+    +line: int
+    +column: int
+    #actor: Actor
+
+    +Cell(l: int, c: int, type: char)
+    +canHaveActor(dir: Dir, actor: Actor): boolean
+    +setActor(actor: Actor)
+    +getActor(): Actor
+    +hasActor(): boolean
+    +getType(): char
+    +{static} getCellByType(l: int, c: int, type: char)
+}
+
+abstract class PlayableCell {
+    +PlayableCell(l: int, c: int, type: char)
+    +canHaveActor(dir: Dir, actor: Actor): boolean
+}
+
+abstract class DirectionalCell {
+    -direction: Dir
+    ~DirectionalCell(l: int, c: int, type: char, direction: Dir)
+    +getDirection(): Dir
+    +canHaveActor(dir: Dir, actor: Actor): boolean
+}
+
+class FloorCell {
+    +{static} TYPE: char
+    +FloorCell(l: int, c: int)
+    #FloorCell(l: int, c: int, type: char)
+}
+
+class UpCell {
+    +{static} TYPE: char
+    +{static} DIRECTION: Dir
+    +UpCell(l: int, c: int)
+}
+
+class DownCell {
+    +{static} TYPE: char
+    +{static} DIRECTION: Dir
+    +DownCell(l: int, c: int)
+}
+
+class LeftCell {
+    +{static} TYPE: char
+    +{static} DIRECTION: Dir
+    +LeftCell(l: int, c: int)
+}
+
+class RightCell {
+    +{static} TYPE: char
+    +{static} DIRECTION: Dir
+    +RightCell(l: int, c: int)
+}
+
+class EmptyCell {
+    +{static} TYPE: char
+    +EmptyCell(l: int, c: int)
+}
+
+class WallCell {
+    +{static} TYPE: char
+    +WallCell(l: int, c: int)
+}
+
+class HoleCell {
+    +{static} TYPE: char
+    +HoleCell(l: int, c: int)
+}
+
+class DoorCell {
+    +{static} TYPE: char
+    +DoorCell(l: int, c: int)
+}
+
+class ObjectiveCell {
+    +{static} TYPE: char
+    +ObjectiveCell(l: int, c: int)
+}
+
+@enduml

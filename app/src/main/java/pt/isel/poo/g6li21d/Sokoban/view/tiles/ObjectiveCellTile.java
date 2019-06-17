@@ -10,12 +10,12 @@ import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
 
 public final class ObjectiveCellTile extends PlayableCellTile {
 
-    private static final Paint boxInObjective = new Paint();
+    private static final Paint BOX_IN_OBJECTIVE = new Paint();
     private static final int COLOR_NO_BOX = Color.RED;
     private static final int COLOR_BOX = Color.GREEN;
 
     static {
-        boxInObjective.setColor(Color.argb(200, 0, 0, 0));
+        BOX_IN_OBJECTIVE.setColor(Color.argb(200, 0, 0, 0));
     }
 
     /**
@@ -38,9 +38,9 @@ public final class ObjectiveCellTile extends PlayableCellTile {
     }
 
     @Override
-    protected void drawBox(Canvas canvas, int side) { boxImg.draw(canvas, side, side, boxInObjective); }
+    protected void drawBox(Canvas canvas, int side) { boxImg.draw(canvas, side, side, BOX_IN_OBJECTIVE); }
 
     @Override
-    protected void drawLightBox(Canvas canvas, int side) { lightBoxImg.draw(canvas, side, side, boxInObjective); }
+    protected void drawLightBox(Canvas canvas, int side) { lightBoxImg.draw(canvas, side, side, BOX_IN_OBJECTIVE); }
 
 }

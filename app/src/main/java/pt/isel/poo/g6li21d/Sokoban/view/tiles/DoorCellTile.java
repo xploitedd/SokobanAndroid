@@ -8,9 +8,9 @@ import pt.isel.poo.g6li21d.TileLib.Img;
 
 public final class DoorCellTile extends PlayableCellTile {
 
-    private static final int DIR_DOWN_RES = R.drawable.door;
+    private static final int RESID = R.drawable.door;
 
-    private static Img downImg;
+    private static Img image;
 
     /**
      * Creates a new DoorCellTile object
@@ -19,8 +19,8 @@ public final class DoorCellTile extends PlayableCellTile {
      */
     DoorCellTile(Context ctx, Cell cell) {
         super(ctx, cell);
-        downImg = generateImage(downImg, ctx, DIR_DOWN_RES);
-        setTileBackgroundImage(downImg);
+        image = generateImage(image, ctx, RESID);
+        setTileBackgroundImage(image);
     }
 
 }

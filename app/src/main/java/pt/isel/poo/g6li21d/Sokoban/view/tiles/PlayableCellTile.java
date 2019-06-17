@@ -16,7 +16,7 @@ import pt.isel.poo.g6li21d.TileLib.Img;
 
 public abstract class PlayableCellTile extends CellTile {
 
-    private static final Paint activePlayerPaint = new Paint();
+    private static final Paint ACTIVE_PLAYER_PAINT = new Paint();
     private static final int PLAYER_RES = R.drawable.man;
     private static final int BOX_RES = R.drawable.box;
     private static final int LIGHT_BOX_RES = R.drawable.light_box;
@@ -28,7 +28,7 @@ public abstract class PlayableCellTile extends CellTile {
     protected static Img keyImg;
 
     static {
-        activePlayerPaint.setColor(Color.argb(125, 0, 0, 0));
+        ACTIVE_PLAYER_PAINT.setColor(Color.argb(125, 0, 0, 0));
     }
 
     /**
@@ -78,7 +78,7 @@ public abstract class PlayableCellTile extends CellTile {
      */
     protected void drawPlayer(Canvas canvas, int side) {
         Player p = (Player) cell.getActor();
-        playerImg.draw(canvas, side, side, p.isActive() ? paint : activePlayerPaint);
+        playerImg.draw(canvas, side, side, p.isActive() ? paint : ACTIVE_PLAYER_PAINT);
     }
 
     /**
