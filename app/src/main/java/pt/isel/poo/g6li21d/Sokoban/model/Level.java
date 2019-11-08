@@ -1,6 +1,7 @@
 package pt.isel.poo.g6li21d.Sokoban.model;
 
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import pt.isel.poo.g6li21d.Sokoban.model.actors.*;
@@ -81,26 +82,8 @@ public class Level {
                 board[l][c] = cell;
             }
 
-            Actor actor = null;
-            switch (type) {
-                case Player.TYPE:
-                    actor = new Player(players);
-                    playersCell[players++] = cell;
-                    break;
-                case Box.TYPE:
-                    actor = new Box();
-                    addBox(cell);
-                    break;
-                case LightBox.TYPE:
-                    actor = new LightBox();
-                    addBox(cell);
-                    break;
-                case Key.TYPE:
-                    actor = new Key();
-                    break;
-            }
 
-            cell.setActor(actor);
+            cell.setActor(getActorByType(type, cell));
             return;
         }
 
@@ -108,11 +91,32 @@ public class Level {
             board[l][c] = cell;
     }
 
+    private static final Class[] actors = {Box.class,Key.class,LightBox.class};
+    private Actor getActorByType(char type, Cell cell) {
+        if(type == Player.TYPE) {
+             playersCell[players] = cell;
+             return new Player(players++);
+        }
+        try {
+            for (Class curr : actors) {
+                char currType = curr.getField("TYPE").getChar(null);
+                if(currType == type) {
+                    return (Actor) curr.getConstructor(Level.class,Cell.class).newInstance(this,cell);
+                }
+            }
+        }catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e ){
+            e.printStackTrace();
+            throw new RuntimeException("GetActorByType Error");
+        }
+        return null;
+
+    }
+
     /**
      * Increases the box count if the cell isn't already an objective
      * @param cell Cell to check
      */
-    private void addBox(Cell cell) {
+    public void addBox(Cell cell) {
         if (cell.getType() != ObjectiveCell.TYPE)
             ++boxes;
     }

@@ -6,12 +6,6 @@ import pt.isel.poo.g6li21d.Sokoban.model.cells.Cell;
 
 public abstract class Actor {
 
-    private final char type;
-
-    Actor(char type) {
-        this.type = type;
-    }
-
     /**
      * Moves the actor into a desired cell
      * @param level Level where the actor will be moved
@@ -39,6 +33,6 @@ public abstract class Actor {
      * Gets the actor type
      * @return actor type
      */
-    public final char getType() { return type; }
+    public abstract char getType();
 
 }

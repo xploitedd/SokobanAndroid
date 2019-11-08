@@ -8,7 +8,12 @@ public final class LightBox extends Box {
 
     public static final char TYPE = '#';
 
-    public LightBox() { super(TYPE); }
+    public LightBox(Level lvl, Cell cell) { super(lvl,cell); }
+
+    @Override
+    public char getType() {
+        return TYPE;
+    }
 
     @Override
     public boolean move(Level level, Dir dir, Cell from, Cell to) {

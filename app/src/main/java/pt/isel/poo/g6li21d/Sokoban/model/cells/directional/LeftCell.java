@@ -8,7 +8,10 @@ public final class LeftCell extends DirectionalCell {
     public static final Dir DIRECTION = Dir.LEFT;
 
     public LeftCell(int l, int c) {
-        super(l, c, TYPE, DIRECTION);
+        super(l, c, DIRECTION);
     }
+
+    @Override
+    public char getType() { return TYPE; }
 
 }

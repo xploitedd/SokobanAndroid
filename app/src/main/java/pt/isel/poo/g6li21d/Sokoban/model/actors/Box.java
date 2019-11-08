@@ -11,11 +11,9 @@ public class Box extends Actor {
 
     public static final char TYPE = 'B';
 
-    public Box() {
-        super(TYPE);
+    public Box(Level lvl,Cell cell) {
+        lvl.addBox(cell);
     }
-
-    protected Box(char type) { super(type); }
 
     @Override
     public boolean move(Level level, Dir dir, Cell from, Cell to) {
@@ -36,6 +34,11 @@ public class Box extends Actor {
         }
 
         return false;
+    }
+
+    @Override
+    public char getType() {
+        return TYPE;
     }
 
 }

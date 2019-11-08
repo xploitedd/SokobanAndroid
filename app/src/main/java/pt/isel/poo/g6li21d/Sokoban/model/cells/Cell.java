@@ -1,5 +1,7 @@
 package pt.isel.poo.g6li21d.Sokoban.model.cells;
 
+import java.lang.reflect.InvocationTargetException;
+
 import pt.isel.poo.g6li21d.Sokoban.model.Dir;
 import pt.isel.poo.g6li21d.Sokoban.model.actors.Actor;
 import pt.isel.poo.g6li21d.Sokoban.model.cells.directional.DownCell;
@@ -9,7 +11,16 @@ import pt.isel.poo.g6li21d.Sokoban.model.cells.directional.UpCell;
 
 public abstract class Cell {
 
-    private final char type;
+    private static final Class[] cells = {FloorCell.class
+            , WallCell.class
+            , ObjectiveCell.class
+            , HoleCell.class
+            , EmptyCell.class
+            , UpCell.class
+            , DownCell.class
+            , RightCell.class
+            , LeftCell.class
+            , DoorCell.class};
     public final int line;
     public final int column;
 
@@ -20,11 +31,9 @@ public abstract class Cell {
      * @param l line where the cell is
      * @param c column where the cell is
      */
-    public Cell(int l, int c, char type) {
+    public Cell(int l, int c) {
         line = l;
         column = c;
-
-        this.type = type;
     }
 
     /**
@@ -58,7 +67,7 @@ public abstract class Cell {
      * Gets the cell type
      * @return type of the cell
      */
-    public final char getType() { return type; }
+    public abstract char getType();
 
     /**
      * Transforms a cell type into a Cell-like object
@@ -68,30 +77,18 @@ public abstract class Cell {
      * @return Cell-like object or null if type is invalid
      */
     public static Cell getCellByType(int l, int c, char type) {
-        switch (type) {
-            case FloorCell.TYPE:
-                return new FloorCell(l, c);
-            case WallCell.TYPE:
-                return new WallCell(l, c);
-            case ObjectiveCell.TYPE:
-                return new ObjectiveCell(l, c);
-            case HoleCell.TYPE:
-                return new HoleCell(l, c);
-            case EmptyCell.TYPE:
-                return new EmptyCell(l, c);
-            case UpCell.TYPE:
-                return new UpCell(l, c);
-            case DownCell.TYPE:
-                return new DownCell(l, c);
-            case RightCell.TYPE:
-                return new RightCell(l, c);
-            case LeftCell.TYPE:
-                return new LeftCell(l, c);
-            case DoorCell.TYPE:
-                return new DoorCell(l, c);
-            default:
-                return null;
+        try {
+            for (Class curr : cells) {
+                char currType = curr.getField("TYPE").getChar(null);
+                if(currType == type) {
+                    return (Cell) curr.getConstructor(int.class,int.class).newInstance(l,c);
+                }
+            }
+        }catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e ){
+            e.printStackTrace();
+            throw new RuntimeException("GetCellByType Error");
         }
+        return null;
     }
 
 }

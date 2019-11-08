@@ -8,7 +8,10 @@ public final class DownCell extends DirectionalCell {
     public static final Dir DIRECTION = Dir.DOWN;
 
     public DownCell(int l, int c) {
-        super(l, c, TYPE, DIRECTION);
+        super(l, c, DIRECTION);
     }
+
+    @Override
+    public char getType() { return TYPE; }
 
 }

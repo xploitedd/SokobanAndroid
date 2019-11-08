@@ -18,7 +18,6 @@ public final class Player extends Actor {
      * @param playerId playerId of this player
      */
     public Player(int playerId) {
-        super(TYPE);
         this.playerId = playerId;
     }
 
@@ -44,6 +43,11 @@ public final class Player extends Actor {
         }
 
         return false;
+    }
+
+    @Override
+    public char getType() {
+        return TYPE;
     }
 
     public void setActive(boolean active) { this.active = active; }

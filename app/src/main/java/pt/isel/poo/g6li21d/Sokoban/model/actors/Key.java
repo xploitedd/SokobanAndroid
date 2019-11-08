@@ -10,10 +10,7 @@ import pt.isel.poo.g6li21d.Sokoban.model.cells.HoleCell;
 public final class Key extends Actor {
 
     public static final char TYPE = 'K';
-
-    public Key() {
-        super(TYPE);
-    }
+    public Key(Level lvl,Cell cell) {}
 
     @Override
     public boolean move(Level level, Dir dir, Cell from, Cell to) {
@@ -30,6 +27,11 @@ public final class Key extends Actor {
         }
 
         return false;
+    }
+
+    @Override
+    public char getType() {
+        return TYPE;
     }
 
 }
